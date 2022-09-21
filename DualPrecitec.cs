@@ -238,6 +238,7 @@ namespace TCHRLibBasicDemo2
             TBSODX.Enabled = _bEnabled;
         }
 
+
         private void TTimerUpdate_Tick(object sender, EventArgs e)
         {
             
@@ -436,11 +437,9 @@ namespace TCHRLibBasicDemo2
 
         private void BtAutoSaveData_Click(object sender, EventArgs e)
         {
-            TTimerUpdate.Enabled = false;
-            BtAutoSaveData.Enabled = false;
-            BtSend.Enabled = false;
-            TBCMD.Enabled = false;
-            
+            EnableGui(false);
+
+
             double[] tempDataBuffer = new double[0];
             Int64 BufSize = 0;
             //check minimum required buffer size
