@@ -34,7 +34,9 @@ namespace TCHRLibBasicDemo2
         const int Data_Length = 1024;
         const int Max_Signal_Nr = 2048*16;
         const int Max_Sample_Nr = 1024;
+        private const string ConnectionError = "Connection Error";
         TCHRLibFunctionWrapper.Conn_h CHRHandle;
+        TCHRLibFunctionWrapper.Conn_h CHRHandle2;
         TCHRDataSample[] DataSamples;
         double[] OneSampleData;
         short[] SpecData;
@@ -69,24 +71,17 @@ namespace TCHRLibBasicDemo2
 
         private void BtConnect_Click(object sender, EventArgs e)
         {
-            bool bConnect = false;
+            bool connected = false;
             //connect to device
             if (sender == BtConnect)
             {
-                int DeviceType = TCHRLibFunctionWrapper.CHR_Compact_Device;
                 string strConInfo = TbConInfo.Text;
+                string strConInfo2 = TbConInfo2.Text;
                 //Open connection in synchronous mode
                 //device buffer size has to be power of 2. When 0 is set, default buffer size 32MB is used.
-                bConnect = TCHRLibFunctionWrapper.ResultSuccess( 
-                    TCHRLibFunctionWrapper.OpenConnection(strConInfo, DeviceType, 
-                    TCHRLibFunctionWrapper.Connection_Synchronous,  0, out CHRHandle));
-                if (bConnect)
-                {
-                    //set up device
-                    SetupDevice();
-                    CurrentDataPos = 0;
-                    TTimerUpdate.Enabled = true;        
-                }
+                connected = ConnectDevice(strConInfo, out CHRHandle);
+                connected &= ConnectDevice(strConInfo2, out CHRHandle2);
+                
             }
             //close connection to device
             else
@@ -94,12 +89,35 @@ namespace TCHRLibBasicDemo2
                 TTimerUpdate.Enabled = false;
                 TCHRLibFunctionWrapper.CloseConnection(CHRHandle);
             }
-            EnableGui(bConnect);
+            EnableGui(connected);
 
         }
 
+        private bool ConnectDevice(string connStr, out TCHRLibFunctionWrapper.Conn_h connHandle)
+        {
+            bool bConnect = false;
+            int DeviceType = TCHRLibFunctionWrapper.CHR_Compact_Device;
+            bConnect = TCHRLibFunctionWrapper.ResultSuccess(
+                TCHRLibFunctionWrapper.OpenConnection(connStr, DeviceType,
+                TCHRLibFunctionWrapper.Connection_Synchronous, 0, out connHandle));
+            if (bConnect)
+            {
+                //set up device
+                SetupDevice(connHandle);
+                CurrentDataPos = 0;
+                TTimerUpdate.Enabled = true;
+            }
+            else
+            {
+                string errMsg = String.Format("Could not connect {0}", connStr);
+                _ = MessageBox.Show(errMsg, ConnectionError, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            return bConnect;
+        }
 
-        private void SetupDevice()
+
+
+        private void SetupDevice(TCHRLibFunctionWrapper.Conn_h handle)
         {
             //default signals are: Sample counter, peak 1 value, peak 1 quality/intensity
             //signal definition for CLS device, only 16bit integer signal for peak signal
@@ -109,12 +127,12 @@ namespace TCHRLibBasicDemo2
             TBSODX.Text = String.Join(",", SignalIDs.Select(p => p.ToString()).ToArray());
             ScanRate = 2000;
             TBSHZ.Text = ScanRate.ToString();
-            SetUpMeasuringMethod();
-            SetUpScanrate();
-            SetUpOutputSignals();
+            SetUpMeasuringMethod(handle);
+            SetUpScanrate(handle);
+            SetUpOutputSignals(handle);
         }
 
-        private void SetUpMeasuringMethod()
+        private void SetUpMeasuringMethod(TCHRLibFunctionWrapper.Conn_h handle)
         {
             try
             {
@@ -126,7 +144,7 @@ namespace TCHRLibBasicDemo2
                 //Add measuring method argument
                 TCHRLibFunctionWrapper.AddCommandIntArg(hCmd, nMMD);
                 //Execute command and check result
-                if (!TCHRLibFunctionWrapper.ResultSuccess(TCHRLibFunctionWrapper.ExecCommand(CHRHandle, hCmd, out hRsp)))
+                if (!TCHRLibFunctionWrapper.ResultSuccess(TCHRLibFunctionWrapper.ExecCommand(handle, hCmd, out hRsp)))
                     Debug.Fail("Cannot set measuring method");
                 else
                 {
@@ -139,7 +157,7 @@ namespace TCHRLibBasicDemo2
             }
         }
 
-        private void SetUpOutputSignals()
+        private void SetUpOutputSignals(TCHRLibFunctionWrapper.Conn_h handle)
         {
             try
             {
@@ -155,7 +173,7 @@ namespace TCHRLibBasicDemo2
                 //Add output signal argument
                 TCHRLibFunctionWrapper.AddCommandIntArrayArg(hCmd, signals, signals.Length);
                 //Execute command and check result
-                if (!TCHRLibFunctionWrapper.ResultSuccess(TCHRLibFunctionWrapper.ExecCommand(CHRHandle, hCmd, out hRsp)))
+                if (!TCHRLibFunctionWrapper.ResultSuccess(TCHRLibFunctionWrapper.ExecCommand(handle, hCmd, out hRsp)))
                     Debug.Fail("Cannot set output signals");
                 else
                 {
@@ -182,7 +200,7 @@ namespace TCHRLibBasicDemo2
         }
 
 
-        private void SetUpScanrate()
+        private void SetUpScanrate(TCHRLibFunctionWrapper.Conn_h handle)
         {
             try
             {
@@ -194,7 +212,7 @@ namespace TCHRLibBasicDemo2
                 //Add scan rate argument
                 TCHRLibFunctionWrapper.AddCommandFloatArg(hCmd, nSHZ);
                 //Execute command and check result
-                if (!TCHRLibFunctionWrapper.ResultSuccess(TCHRLibFunctionWrapper.ExecCommand(CHRHandle, hCmd, out hRsp)))
+                if (!TCHRLibFunctionWrapper.ResultSuccess(TCHRLibFunctionWrapper.ExecCommand(handle, hCmd, out hRsp)))
                     Debug.Fail("Cannot set measuring method");
                 //Get response scan rate argument
                 else
@@ -456,21 +474,18 @@ namespace TCHRLibBasicDemo2
             pinnedArray.Free();
         }
 
-        private void RBConfocal_Click(object sender, EventArgs e)
-        {
-            SetUpMeasuringMethod();
-        }
-
         private void TBSHZ_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == (char)Keys.Return)
-                SetUpScanrate();
+                SetUpScanrate(CHRHandle);
+                SetUpScanrate(CHRHandle2);
         }
 
         private void TBSODX_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == (char)Keys.Return)
-                SetUpOutputSignals();
+                SetUpOutputSignals(CHRHandle);
+                SetUpOutputSignals(CHRHandle2);
         }
 
     }
