@@ -34,9 +34,10 @@ namespace TCHRLibBasicDemo2
         const int Data_Length = 1024;
         const int Max_Signal_Nr = 2048*16;
         const int Max_Sample_Nr = 1024;
-        private const string ConnectionError = "Connection Error";
+        const string ConnectionError = "Connection Error";
         TCHRLibFunctionWrapper.Conn_h CHRHandle;
         TCHRLibFunctionWrapper.Conn_h CHRHandle2;
+        bool connected = false;
         TCHRDataSample[] DataSamples;
         double[] OneSampleData;
         short[] SpecData;
@@ -71,7 +72,6 @@ namespace TCHRLibBasicDemo2
 
         private void BtConnect_Click(object sender, EventArgs e)
         {
-            bool connected = false;
             //connect to device
             if (sender == BtConnect)
             {
@@ -88,6 +88,7 @@ namespace TCHRLibBasicDemo2
             {
                 TTimerUpdate.Enabled = false;
                 TCHRLibFunctionWrapper.CloseConnection(CHRHandle);
+                TCHRLibFunctionWrapper.CloseConnection(CHRHandle2);
             }
             EnableGui(connected);
 
@@ -443,7 +444,18 @@ namespace TCHRLibBasicDemo2
             double[] tempDataBuffer = new double[0];
             Int64 BufSize = 0;
             //check minimum required buffer size
-            TCHRLibFunctionWrapper.ActivateAutoBufferMode(CHRHandle, IntPtr.Zero, 1000, ref BufSize);
+            if (connected)
+            {
+                TCHRLibFunctionWrapper.ActivateAutoBufferMode(CHRHandle, IntPtr.Zero, 1000, ref BufSize);
+            }
+            else
+            {
+                string errMsg = String.Format("Could not {0}", "ActivateAutoBufferMode");
+                _ = MessageBox.Show(errMsg, ConnectionError, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+
             tempDataBuffer = new double[BufSize/sizeof(double)];
             GCHandle pinnedArray = GCHandle.Alloc(tempDataBuffer, GCHandleType.Pinned);
             IntPtr unmanagedPointer = pinnedArray.AddrOfPinnedObject();
