@@ -56,14 +56,14 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <None Include="App.config" />
-    <Compile Include="BasicDemo1.Designer.cs">
-      <DependentUpon>BasicDemo1.cs</DependentUpon>
+    <Compile Include="DualPrecitec.Designer.cs">
+      <DependentUpon>DualPrecitec.cs</DependentUpon>
     </Compile>
-    <Compile Include="BasicDemo1.cs">
+    <Compile Include="DualPrecitec.cs">
       <SubType>Form</SubType>
     </Compile>
-    <EmbeddedResource Include="BasicDemo1.resx">
-      <DependentUpon>BasicDemo1.cs</DependentUpon>
+    <EmbeddedResource Include="DualPrecitec.resx">
+      <DependentUpon>DualPrecitec.cs</DependentUpon>
     </EmbeddedResource>
     <Compile Include="Program.cs" />
     <EmbeddedResource Include="Properties\Resources.resx" />
