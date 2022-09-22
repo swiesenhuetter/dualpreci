@@ -258,9 +258,8 @@ namespace TCHRLibBasicDemo2
                 IntPtr pData = IntPtr.Zero;
                 //try to read 1000 samples without waiting, 1000 is an arbitary number
                 var nRes = TCHRLibFunctionWrapper.GetNextSamples(CHRHandle, ref nCount, out pData, out nSize, out sGenInfo, out pInfo);
-                IntPtr pInfo2 = IntPtr.Zero;
                 IntPtr pData2 = IntPtr.Zero;
-                var nRes2 = TCHRLibFunctionWrapper.GetNextSamples(CHRHandle2, ref nCount, out pData2, out nSize, out sGenInfo, out pInfo2);
+                var nRes2 = TCHRLibFunctionWrapper.GetNextSamples(CHRHandle2, ref nCount, out pData2, out nSize, out sGenInfo, out pInfo);
                 if (TCHRLibFunctionWrapper.ResultSuccess(nRes))
                 {
                     if (nCount > 0)
@@ -440,13 +439,18 @@ namespace TCHRLibBasicDemo2
         {
             EnableGui(false);
 
+            int numSamples = 1000;
 
-            double[] tempDataBuffer = new double[0];
+
+            double[] tempDataBuffer1 = new double[0];
+            double[] tempDataBuffer2 = new double[0];
+
             Int64 BufSize = 0;
             //check minimum required buffer size
             if (connected)
             {
-                TCHRLibFunctionWrapper.ActivateAutoBufferMode(CHRHandle, IntPtr.Zero, 1000, ref BufSize);
+                TCHRLibFunctionWrapper.ActivateAutoBufferMode(CHRHandle, IntPtr.Zero, numSamples, ref BufSize);
+                TCHRLibFunctionWrapper.ActivateAutoBufferMode(CHRHandle2, IntPtr.Zero, numSamples, ref BufSize);
             }
             else
             {
@@ -456,25 +460,43 @@ namespace TCHRLibBasicDemo2
             }
 
 
-            tempDataBuffer = new double[BufSize/sizeof(double)];
-            GCHandle pinnedArray = GCHandle.Alloc(tempDataBuffer, GCHandleType.Pinned);
-            IntPtr unmanagedPointer = pinnedArray.AddrOfPinnedObject();
-            int nSigNr = (int)(BufSize / 1000 / sizeof(double));
+            tempDataBuffer1 = new double[BufSize / sizeof(double)];
+            tempDataBuffer2 = new double[BufSize / sizeof(double)];
+            GCHandle pinnedArray1 = GCHandle.Alloc(tempDataBuffer1, GCHandleType.Pinned);
+            GCHandle pinnedArray2 = GCHandle.Alloc(tempDataBuffer1, GCHandleType.Pinned);
+            IntPtr unmanagedPointer1 = pinnedArray1.AddrOfPinnedObject();
+            IntPtr unmanagedPointer2 = pinnedArray2.AddrOfPinnedObject();
+            int nSigNr = (int)(BufSize / numSamples / sizeof(double));
             //begin automatic data save to buffer
             if (TCHRLibFunctionWrapper.ResultSuccess(
-                TCHRLibFunctionWrapper.ActivateAutoBufferMode(CHRHandle, unmanagedPointer, 1000, ref BufSize)))
+                    TCHRLibFunctionWrapper.ActivateAutoBufferMode(CHRHandle, unmanagedPointer1, numSamples, ref BufSize)) &&
+                TCHRLibFunctionWrapper.ResultSuccess(
+                    TCHRLibFunctionWrapper.ActivateAutoBufferMode(CHRHandle2, unmanagedPointer2, numSamples, ref BufSize)))
             {
-                //check whether buffer save is finished
-                while (TCHRLibFunctionWrapper.GetAutoBufferStatus(CHRHandle) == TCHRLibFunctionWrapper.Auto_Buffer_Saving)
-                    System.Threading.Thread.Sleep(20); ;
+                while(true)
+                {
+                    //check whether buffer save is finished
+                    var preci1_state = TCHRLibFunctionWrapper.GetAutoBufferStatus(CHRHandle);
+                    var preci2_state = TCHRLibFunctionWrapper.GetAutoBufferStatus(CHRHandle2);
+                    if (preci1_state == TCHRLibFunctionWrapper.Auto_Buffer_Saving || preci2_state == TCHRLibFunctionWrapper.Auto_Buffer_Saving)
+                    {
+                        System.Threading.Thread.Sleep(20);
+                    }
+                    else
+                    {
+                        break; 
+                    }
+                }
                 //upon finish, write data to temp.txt file
                 using (StreamWriter sw = new StreamWriter("temp.txt"))
                 {
-                    sw.WriteLine("Automatically saved 1000 samples:");
-                    for (int i=0;i<1000;i++)
+                    sw.WriteLine(String.Format("Automatically saved {0} samples:", numSamples));
+                    for (int i=0;i< numSamples; i++)
                     {
-                        for (int j=0; j<nSigNr; j++)           
-                            sw.Write("{0:0.0}; ", tempDataBuffer[i*nSigNr+j]);
+                        for (int j = 0; j < nSigNr; j++)
+                            sw.Write("{0:0.0}; ", tempDataBuffer1[i * nSigNr + j]);
+                        for (int j = 0; j < nSigNr; j++)
+                            sw.Write("{0:0.0}; ", tempDataBuffer2[i * nSigNr + j]);
                         sw.WriteLine("");
                     }
                 }
@@ -483,7 +505,8 @@ namespace TCHRLibBasicDemo2
                 BtSend.Enabled = true;
                 TBCMD.Enabled = true;
             }
-            pinnedArray.Free();
+            pinnedArray1.Free();
+            pinnedArray2.Free();
         }
 
         private void TBSHZ_KeyPress(object sender, KeyPressEventArgs e)
