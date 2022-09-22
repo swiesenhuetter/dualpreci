@@ -38,7 +38,7 @@ namespace TCHRLibBasicDemo2
         TCHRLibFunctionWrapper.Conn_h CHRHandle;
         TCHRLibFunctionWrapper.Conn_h CHRHandle2;
         bool connected = false;
-        TCHRDataSample[] DataSamples;
+        (TCHRDataSample, TCHRDataSample)[] DataSamples;
         double[] OneSampleData;
         short[] SpecData;
         int CurrentDataPos;
@@ -58,7 +58,7 @@ namespace TCHRLibBasicDemo2
         private void Init()
         {
 
-            DataSamples = new TCHRDataSample[Data_Length];
+            DataSamples = new (TCHRDataSample, TCHRDataSample)[Data_Length];
             OneSampleData = new double[Max_Sample_Nr*Max_Signal_Nr];
             SpecData = new short[1024];
             for (int i = 0; i < Data_Length; i++)
@@ -254,6 +254,9 @@ namespace TCHRLibBasicDemo2
                 IntPtr pData = IntPtr.Zero;
                 //try to read 1000 samples without waiting, 1000 is an arbitary number
                 var nRes = TCHRLibFunctionWrapper.GetNextSamples(CHRHandle, ref nCount, out pData, out nSize, out sGenInfo, out pInfo);
+                IntPtr pInfo2 = IntPtr.Zero;
+                IntPtr pData2 = IntPtr.Zero;
+                var nRes2 = TCHRLibFunctionWrapper.GetNextSamples(CHRHandle2, ref nCount, out pData2, out nSize, out sGenInfo, out pInfo2);
                 if (TCHRLibFunctionWrapper.ResultSuccess(nRes))
                 {
                     if (nCount > 0)
@@ -267,29 +270,29 @@ namespace TCHRLibBasicDemo2
                         Marshal.Copy(pData, OneSampleData, 0, SigNumber * (Int32)nCount);
                         for (int i = 0; i < nCount; i++)
                         {
-                            DataSamples[CurrentDataPos].Distance = 0;
-                            DataSamples[CurrentDataPos].Intensity = 0;
-                            DataSamples[CurrentDataPos].SampleCounter = 0;
+                            DataSamples[CurrentDataPos].Item1.Distance = 0;
+                            DataSamples[CurrentDataPos].Item1.Intensity = 0;
+                            DataSamples[CurrentDataPos].Item1.SampleCounter = 0;
                             if (SigNumber > 0)
                             {
                                 //since we order sample counter as the first signal
                                 //read in the sample counter
                                 if (SigNumber > 0)
                                 {
-                                    DataSamples[CurrentDataPos].SampleCounter = (int)GetSignalData(i, SigNumber, 0);
-                                    if (((DataSamples[CurrentDataPos].SampleCounter < LastCounter)) && (DataSamples[CurrentDataPos].SampleCounter != 0))
+                                    DataSamples[CurrentDataPos].Item1.SampleCounter = (int)GetSignalData(i, SigNumber, 0);
+                                    if (((DataSamples[CurrentDataPos].Item1.SampleCounter < LastCounter)) && (DataSamples[CurrentDataPos].Item1.SampleCounter != 0))
                                     {
                                         Console.WriteLine("Error in counter");
                                     }
-                                    LastCounter = DataSamples[CurrentDataPos].SampleCounter;
+                                    LastCounter = DataSamples[CurrentDataPos].Item1.SampleCounter;
 
                                 }
                                 //read in distance data (for the first channel in case of multi-channel device)
                                 if (SigNumber > 1)
-                                    DataSamples[CurrentDataPos].Distance = GetSignalData(i, SigNumber, 1);
+                                    DataSamples[CurrentDataPos].Item1.Distance = GetSignalData(i, SigNumber, 1);
                                 //read in intensity data (for the first channel in case of multi-channel device)
                                 if (SigNumber > 2)
-                                    DataSamples[CurrentDataPos].Intensity = GetSignalData(i, SigNumber, 2);
+                                    DataSamples[CurrentDataPos].Item1.Intensity = GetSignalData(i, SigNumber, 2);
                                 
                                 
                                 CurrentDataPos++;
@@ -314,9 +317,10 @@ namespace TCHRLibBasicDemo2
                 for (int i = 0; i < Data_Length; i++)
                 {
                     if (SigNumber > 1)
-                        chart3.Series[0].Points[i].YValues[0] = DataSamples[i].Distance;
+                        chart3.Series[0].Points[i].YValues[0] = DataSamples[i].Item1.Distance;
+                        chart3.Series[1].Points[i].YValues[0] = DataSamples[i].Item2.Distance;
                     if (SigNumber > 2)
-                        chart4.Series[0].Points[i].YValues[0] = DataSamples[i].Intensity;
+                        chart4.Series[0].Points[i].YValues[0] = DataSamples[i].Item1.Intensity;
                     
                 }
 
