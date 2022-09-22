@@ -35,9 +35,10 @@
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TBasicDemo1));
             this.panel2 = new System.Windows.Forms.Panel();
             this.panel8 = new System.Windows.Forms.Panel();
@@ -53,7 +54,7 @@
             this.TCData = new System.Windows.Forms.TabControl();
             this.TPData = new System.Windows.Forms.TabPage();
             this.chart4 = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.chart3 = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.distChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.splitter1 = new System.Windows.Forms.Splitter();
             this.TPSpec = new System.Windows.Forms.TabPage();
             this.panel7 = new System.Windows.Forms.Panel();
@@ -85,7 +86,7 @@
             this.TCData.SuspendLayout();
             this.TPData.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart4)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.chart3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.distChart)).BeginInit();
             this.TPSpec.SuspendLayout();
             this.panel7.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
@@ -101,29 +102,29 @@
             this.panel2.Controls.Add(this.panel5);
             this.panel2.Controls.Add(this.panel4);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel2.Location = new System.Drawing.Point(1895, 0);
-            this.panel2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.panel2.Location = new System.Drawing.Point(1263, 0);
+            this.panel2.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(246, 991);
+            this.panel2.Size = new System.Drawing.Size(164, 644);
             this.panel2.TabIndex = 4;
             // 
             // panel8
             // 
             this.panel8.Controls.Add(this.BtAutoSaveData);
             this.panel8.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel8.Location = new System.Drawing.Point(0, 925);
-            this.panel8.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.panel8.Location = new System.Drawing.Point(0, 601);
+            this.panel8.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.panel8.Name = "panel8";
-            this.panel8.Size = new System.Drawing.Size(246, 66);
+            this.panel8.Size = new System.Drawing.Size(164, 43);
             this.panel8.TabIndex = 2;
             // 
             // BtAutoSaveData
             // 
             this.BtAutoSaveData.Dock = System.Windows.Forms.DockStyle.Fill;
             this.BtAutoSaveData.Location = new System.Drawing.Point(0, 0);
-            this.BtAutoSaveData.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.BtAutoSaveData.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.BtAutoSaveData.Name = "BtAutoSaveData";
-            this.BtAutoSaveData.Size = new System.Drawing.Size(246, 66);
+            this.BtAutoSaveData.Size = new System.Drawing.Size(164, 43);
             this.BtAutoSaveData.TabIndex = 0;
             this.BtAutoSaveData.Text = "Auto Save 1000 Samples";
             this.BtAutoSaveData.UseVisualStyleBackColor = true;
@@ -134,29 +135,30 @@
             this.panel5.Controls.Add(this.RTResponse);
             this.panel5.Controls.Add(this.label3);
             this.panel5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel5.Location = new System.Drawing.Point(0, 105);
-            this.panel5.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.panel5.Location = new System.Drawing.Point(0, 68);
+            this.panel5.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(246, 886);
+            this.panel5.Size = new System.Drawing.Size(164, 576);
             this.panel5.TabIndex = 1;
             // 
             // RTResponse
             // 
             this.RTResponse.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.RTResponse.Location = new System.Drawing.Point(0, 61);
-            this.RTResponse.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.RTResponse.Location = new System.Drawing.Point(0, 38);
+            this.RTResponse.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.RTResponse.Name = "RTResponse";
             this.RTResponse.ReadOnly = true;
-            this.RTResponse.Size = new System.Drawing.Size(246, 825);
+            this.RTResponse.Size = new System.Drawing.Size(164, 538);
             this.RTResponse.TabIndex = 2;
             this.RTResponse.Text = "";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(22, 15);
+            this.label3.Location = new System.Drawing.Point(15, 10);
+            this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(152, 20);
+            this.label3.Size = new System.Drawing.Size(104, 13);
             this.label3.TabIndex = 1;
             this.label3.Text = "Received Response";
             // 
@@ -167,18 +169,18 @@
             this.panel4.Controls.Add(this.label2);
             this.panel4.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel4.Location = new System.Drawing.Point(0, 0);
-            this.panel4.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.panel4.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(246, 105);
+            this.panel4.Size = new System.Drawing.Size(164, 68);
             this.panel4.TabIndex = 0;
             // 
             // BtSend
             // 
             this.BtSend.Enabled = false;
-            this.BtSend.Location = new System.Drawing.Point(129, 14);
-            this.BtSend.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.BtSend.Location = new System.Drawing.Point(86, 9);
+            this.BtSend.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.BtSend.Name = "BtSend";
-            this.BtSend.Size = new System.Drawing.Size(104, 29);
+            this.BtSend.Size = new System.Drawing.Size(69, 19);
             this.BtSend.TabIndex = 2;
             this.BtSend.Text = "Send";
             this.BtSend.UseVisualStyleBackColor = true;
@@ -187,10 +189,10 @@
             // TBCMD
             // 
             this.TBCMD.Enabled = false;
-            this.TBCMD.Location = new System.Drawing.Point(7, 51);
-            this.TBCMD.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.TBCMD.Location = new System.Drawing.Point(5, 33);
+            this.TBCMD.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.TBCMD.Name = "TBCMD";
-            this.TBCMD.Size = new System.Drawing.Size(236, 26);
+            this.TBCMD.Size = new System.Drawing.Size(159, 20);
             this.TBCMD.TabIndex = 1;
             this.TBCMD.Text = "$AVD 10";
             this.TBCMD.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TBCMD_KeyPress);
@@ -198,9 +200,10 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(3, 18);
+            this.label2.Location = new System.Drawing.Point(2, 12);
+            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(124, 20);
+            this.label2.Size = new System.Drawing.Size(82, 13);
             this.label2.TabIndex = 0;
             this.label2.Text = "Send Command";
             // 
@@ -212,7 +215,7 @@
             this.panel3.Location = new System.Drawing.Point(0, 0);
             this.panel3.Margin = new System.Windows.Forms.Padding(1);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(1895, 991);
+            this.panel3.Size = new System.Drawing.Size(1263, 644);
             this.panel3.TabIndex = 5;
             // 
             // TCData
@@ -222,23 +225,23 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.TCData.Controls.Add(this.TPData);
             this.TCData.Controls.Add(this.TPSpec);
-            this.TCData.Location = new System.Drawing.Point(0, 144);
-            this.TCData.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.TCData.Location = new System.Drawing.Point(0, 94);
+            this.TCData.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.TCData.Name = "TCData";
             this.TCData.SelectedIndex = 0;
-            this.TCData.Size = new System.Drawing.Size(1895, 836);
+            this.TCData.Size = new System.Drawing.Size(1263, 543);
             this.TCData.TabIndex = 1;
             // 
             // TPData
             // 
             this.TPData.Controls.Add(this.chart4);
-            this.TPData.Controls.Add(this.chart3);
+            this.TPData.Controls.Add(this.distChart);
             this.TPData.Controls.Add(this.splitter1);
-            this.TPData.Location = new System.Drawing.Point(4, 29);
-            this.TPData.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.TPData.Location = new System.Drawing.Point(4, 22);
+            this.TPData.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.TPData.Name = "TPData";
-            this.TPData.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.TPData.Size = new System.Drawing.Size(1887, 803);
+            this.TPData.Padding = new System.Windows.Forms.Padding(2, 1, 2, 1);
+            this.TPData.Size = new System.Drawing.Size(1255, 517);
             this.TPData.TabIndex = 0;
             this.TPData.Text = "Data";
             this.TPData.UseVisualStyleBackColor = true;
@@ -265,7 +268,7 @@
             legend1.Enabled = false;
             legend1.Name = "Legend1";
             this.chart4.Legends.Add(legend1);
-            this.chart4.Location = new System.Drawing.Point(3, 387);
+            this.chart4.Location = new System.Drawing.Point(2, 252);
             this.chart4.Margin = new System.Windows.Forms.Padding(1);
             this.chart4.Name = "chart4";
             series1.ChartArea = "ChartArea1";
@@ -274,11 +277,11 @@
             series1.Legend = "Legend1";
             series1.Name = "Series1";
             this.chart4.Series.Add(series1);
-            this.chart4.Size = new System.Drawing.Size(1881, 423);
+            this.chart4.Size = new System.Drawing.Size(1254, 275);
             this.chart4.TabIndex = 4;
             this.chart4.Text = "chart4";
             // 
-            // chart3
+            // distChart
             // 
             chartArea2.AxisX.IsLabelAutoFit = false;
             chartArea2.AxisX.LabelStyle.Font = new System.Drawing.Font("Modern No. 20", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -296,31 +299,36 @@
             chartArea2.AxisY.MinorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
             chartArea2.AxisY.MinorTickMark.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
             chartArea2.Name = "ChartArea1";
-            this.chart3.ChartAreas.Add(chartArea2);
+            this.distChart.ChartAreas.Add(chartArea2);
             legend2.Enabled = false;
             legend2.Name = "Legend1";
-            this.chart3.Legends.Add(legend2);
-            this.chart3.Location = new System.Drawing.Point(0, 1);
-            this.chart3.Margin = new System.Windows.Forms.Padding(1);
-            this.chart3.Name = "chart3";
+            this.distChart.Legends.Add(legend2);
+            this.distChart.Location = new System.Drawing.Point(0, 1);
+            this.distChart.Margin = new System.Windows.Forms.Padding(1);
+            this.distChart.Name = "distChart";
             series2.ChartArea = "ChartArea1";
             series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
             series2.IsVisibleInLegend = false;
             series2.Legend = "Legend1";
             series2.Name = "Series1";
-            this.chart3.Series.Add(series2);
-            this.chart3.Size = new System.Drawing.Size(1881, 390);
-            this.chart3.TabIndex = 2;
-            this.chart3.Text = "chart3";
+            series3.ChartArea = "ChartArea1";
+            series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series3.Legend = "Legend1";
+            series3.Name = "Series2";
+            this.distChart.Series.Add(series2);
+            this.distChart.Series.Add(series3);
+            this.distChart.Size = new System.Drawing.Size(1254, 253);
+            this.distChart.TabIndex = 2;
+            this.distChart.Text = "Distance Chart";
             // 
             // splitter1
             // 
             this.splitter1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.splitter1.Location = new System.Drawing.Point(3, 2);
-            this.splitter1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.splitter1.Location = new System.Drawing.Point(2, 1);
+            this.splitter1.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.splitter1.Name = "splitter1";
             this.splitter1.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.splitter1.Size = new System.Drawing.Size(1881, 2);
+            this.splitter1.Size = new System.Drawing.Size(1251, 1);
             this.splitter1.TabIndex = 1;
             this.splitter1.TabStop = false;
             // 
@@ -328,11 +336,11 @@
             // 
             this.TPSpec.Controls.Add(this.panel7);
             this.TPSpec.Controls.Add(this.panel6);
-            this.TPSpec.Location = new System.Drawing.Point(4, 29);
-            this.TPSpec.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.TPSpec.Location = new System.Drawing.Point(4, 22);
+            this.TPSpec.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.TPSpec.Name = "TPSpec";
-            this.TPSpec.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.TPSpec.Size = new System.Drawing.Size(1887, 803);
+            this.TPSpec.Padding = new System.Windows.Forms.Padding(2, 1, 2, 1);
+            this.TPSpec.Size = new System.Drawing.Size(1255, 517);
             this.TPSpec.TabIndex = 1;
             this.TPSpec.Text = "Spectrum";
             this.TPSpec.UseVisualStyleBackColor = true;
@@ -341,10 +349,10 @@
             // 
             this.panel7.Controls.Add(this.chart1);
             this.panel7.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel7.Location = new System.Drawing.Point(3, 41);
-            this.panel7.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.panel7.Location = new System.Drawing.Point(2, 26);
+            this.panel7.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.panel7.Name = "panel7";
-            this.panel7.Size = new System.Drawing.Size(1881, 760);
+            this.panel7.Size = new System.Drawing.Size(1251, 490);
             this.panel7.TabIndex = 1;
             // 
             // chart1
@@ -392,17 +400,17 @@
             this.chart1.Location = new System.Drawing.Point(0, 0);
             this.chart1.Margin = new System.Windows.Forms.Padding(0);
             this.chart1.Name = "chart1";
-            series3.ChartArea = "ChartArea1";
-            series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series3.Color = System.Drawing.Color.Yellow;
-            series3.IsVisibleInLegend = false;
-            series3.Legend = "Legend1";
-            series3.MarkerColor = System.Drawing.Color.Red;
-            series3.MarkerSize = 2;
-            series3.MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Square;
-            series3.Name = "Series1";
-            this.chart1.Series.Add(series3);
-            this.chart1.Size = new System.Drawing.Size(1881, 760);
+            series4.ChartArea = "ChartArea1";
+            series4.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series4.Color = System.Drawing.Color.Yellow;
+            series4.IsVisibleInLegend = false;
+            series4.Legend = "Legend1";
+            series4.MarkerColor = System.Drawing.Color.Red;
+            series4.MarkerSize = 2;
+            series4.MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Square;
+            series4.Name = "Series1";
+            this.chart1.Series.Add(series4);
+            this.chart1.Size = new System.Drawing.Size(1251, 490);
             this.chart1.TabIndex = 0;
             this.chart1.Text = "chart1";
             // 
@@ -412,19 +420,19 @@
             this.panel6.Controls.Add(this.RBConfocalSpec);
             this.panel6.Controls.Add(this.RBRawSpec);
             this.panel6.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel6.Location = new System.Drawing.Point(3, 2);
-            this.panel6.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.panel6.Location = new System.Drawing.Point(2, 1);
+            this.panel6.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(1881, 39);
+            this.panel6.Size = new System.Drawing.Size(1251, 25);
             this.panel6.TabIndex = 0;
             // 
             // RBFFTSpec
             // 
             this.RBFFTSpec.AutoSize = true;
-            this.RBFFTSpec.Location = new System.Drawing.Point(483, 5);
-            this.RBFFTSpec.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.RBFFTSpec.Location = new System.Drawing.Point(322, 3);
+            this.RBFFTSpec.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.RBFFTSpec.Name = "RBFFTSpec";
-            this.RBFFTSpec.Size = new System.Drawing.Size(136, 24);
+            this.RBFFTSpec.Size = new System.Drawing.Size(92, 17);
             this.RBFFTSpec.TabIndex = 2;
             this.RBFFTSpec.Text = "FFT Spectrum";
             this.RBFFTSpec.UseVisualStyleBackColor = true;
@@ -432,10 +440,10 @@
             // RBConfocalSpec
             // 
             this.RBConfocalSpec.AutoSize = true;
-            this.RBConfocalSpec.Location = new System.Drawing.Point(204, 5);
-            this.RBConfocalSpec.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.RBConfocalSpec.Location = new System.Drawing.Point(136, 3);
+            this.RBConfocalSpec.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.RBConfocalSpec.Name = "RBConfocalSpec";
-            this.RBConfocalSpec.Size = new System.Drawing.Size(249, 24);
+            this.RBConfocalSpec.Size = new System.Drawing.Size(168, 17);
             this.RBConfocalSpec.TabIndex = 1;
             this.RBConfocalSpec.Text = "Confocal Processed Spectrum";
             this.RBConfocalSpec.UseVisualStyleBackColor = true;
@@ -444,10 +452,10 @@
             // 
             this.RBRawSpec.AutoSize = true;
             this.RBRawSpec.Checked = true;
-            this.RBRawSpec.Location = new System.Drawing.Point(24, 5);
-            this.RBRawSpec.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.RBRawSpec.Location = new System.Drawing.Point(16, 3);
+            this.RBRawSpec.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.RBRawSpec.Name = "RBRawSpec";
-            this.RBRawSpec.Size = new System.Drawing.Size(139, 24);
+            this.RBRawSpec.Size = new System.Drawing.Size(95, 17);
             this.RBRawSpec.TabIndex = 0;
             this.RBRawSpec.TabStop = true;
             this.RBRawSpec.Text = "Raw Spectrum";
@@ -459,9 +467,9 @@
             this.panel1.Controls.Add(this.panel10);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.panel1.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1895, 140);
+            this.panel1.Size = new System.Drawing.Size(1263, 91);
             this.panel1.TabIndex = 4;
             // 
             // panel9
@@ -470,18 +478,18 @@
             this.panel9.Controls.Add(this.label5);
             this.panel9.Controls.Add(this.TBSODX);
             this.panel9.Controls.Add(this.label4);
-            this.panel9.Location = new System.Drawing.Point(518, 0);
-            this.panel9.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.panel9.Location = new System.Drawing.Point(345, 0);
+            this.panel9.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.panel9.Name = "panel9";
-            this.panel9.Size = new System.Drawing.Size(1377, 118);
+            this.panel9.Size = new System.Drawing.Size(918, 77);
             this.panel9.TabIndex = 11;
             // 
             // TBSHZ
             // 
-            this.TBSHZ.Location = new System.Drawing.Point(143, 19);
-            this.TBSHZ.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.TBSHZ.Location = new System.Drawing.Point(95, 12);
+            this.TBSHZ.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.TBSHZ.Name = "TBSHZ";
-            this.TBSHZ.Size = new System.Drawing.Size(126, 26);
+            this.TBSHZ.Size = new System.Drawing.Size(85, 20);
             this.TBSHZ.TabIndex = 3;
             this.TBSHZ.Text = "2000";
             this.TBSHZ.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TBSHZ_KeyPress);
@@ -489,18 +497,19 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(12, 22);
+            this.label5.Location = new System.Drawing.Point(8, 14);
+            this.label5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(78, 20);
+            this.label5.Size = new System.Drawing.Size(53, 13);
             this.label5.TabIndex = 2;
             this.label5.Text = "Scanrate:";
             // 
             // TBSODX
             // 
-            this.TBSODX.Location = new System.Drawing.Point(138, 63);
-            this.TBSODX.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.TBSODX.Location = new System.Drawing.Point(92, 41);
+            this.TBSODX.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.TBSODX.Name = "TBSODX";
-            this.TBSODX.Size = new System.Drawing.Size(250, 26);
+            this.TBSODX.Size = new System.Drawing.Size(168, 20);
             this.TBSODX.TabIndex = 1;
             this.TBSODX.Text = "83, 256, 257";
             this.TBSODX.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TBSODX_KeyPress);
@@ -508,9 +517,10 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(7, 64);
+            this.label4.Location = new System.Drawing.Point(5, 42);
+            this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(129, 20);
+            this.label4.Size = new System.Drawing.Size(87, 13);
             this.label4.TabIndex = 0;
             this.label4.Text = "Selected signals:";
             // 
@@ -524,45 +534,47 @@
             this.panel10.Controls.Add(this.TbConInfo);
             this.panel10.Controls.Add(this.label1);
             this.panel10.Location = new System.Drawing.Point(0, 0);
-            this.panel10.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.panel10.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.panel10.Name = "panel10";
-            this.panel10.Size = new System.Drawing.Size(519, 118);
+            this.panel10.Size = new System.Drawing.Size(346, 77);
             this.panel10.TabIndex = 10;
             // 
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(226, 85);
+            this.label7.Location = new System.Drawing.Point(151, 55);
+            this.label7.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(83, 20);
+            this.label7.Size = new System.Drawing.Size(57, 13);
             this.label7.TabIndex = 19;
             this.label7.Text = "CHRoco 2";
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(226, 47);
+            this.label6.Location = new System.Drawing.Point(151, 31);
+            this.label6.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(83, 20);
+            this.label6.Size = new System.Drawing.Size(57, 13);
             this.label6.TabIndex = 18;
             this.label6.Text = "CHRoco 1";
             // 
             // TbConInfo2
             // 
-            this.TbConInfo2.Location = new System.Drawing.Point(16, 79);
-            this.TbConInfo2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.TbConInfo2.Location = new System.Drawing.Point(11, 51);
+            this.TbConInfo2.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.TbConInfo2.Name = "TbConInfo2";
-            this.TbConInfo2.Size = new System.Drawing.Size(204, 26);
+            this.TbConInfo2.Size = new System.Drawing.Size(137, 20);
             this.TbConInfo2.TabIndex = 17;
             this.TbConInfo2.Text = "192.168.170.4";
             // 
             // BtDisCon
             // 
             this.BtDisCon.Enabled = false;
-            this.BtDisCon.Location = new System.Drawing.Point(325, 61);
-            this.BtDisCon.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.BtDisCon.Location = new System.Drawing.Point(217, 40);
+            this.BtDisCon.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.BtDisCon.Name = "BtDisCon";
-            this.BtDisCon.Size = new System.Drawing.Size(139, 44);
+            this.BtDisCon.Size = new System.Drawing.Size(93, 29);
             this.BtDisCon.TabIndex = 15;
             this.BtDisCon.Text = "Disconnect";
             this.BtDisCon.UseVisualStyleBackColor = true;
@@ -570,10 +582,10 @@
             // 
             // BtConnect
             // 
-            this.BtConnect.Location = new System.Drawing.Point(325, 18);
-            this.BtConnect.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.BtConnect.Location = new System.Drawing.Point(217, 12);
+            this.BtConnect.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.BtConnect.Name = "BtConnect";
-            this.BtConnect.Size = new System.Drawing.Size(139, 39);
+            this.BtConnect.Size = new System.Drawing.Size(93, 25);
             this.BtConnect.TabIndex = 14;
             this.BtConnect.Text = "Connect";
             this.BtConnect.UseVisualStyleBackColor = true;
@@ -581,19 +593,20 @@
             // 
             // TbConInfo
             // 
-            this.TbConInfo.Location = new System.Drawing.Point(16, 41);
-            this.TbConInfo.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.TbConInfo.Location = new System.Drawing.Point(11, 27);
+            this.TbConInfo.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.TbConInfo.Name = "TbConInfo";
-            this.TbConInfo.Size = new System.Drawing.Size(204, 26);
+            this.TbConInfo.Size = new System.Drawing.Size(137, 20);
             this.TbConInfo.TabIndex = 10;
             this.TbConInfo.Text = "192.168.170.5";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 16);
+            this.label1.Location = new System.Drawing.Point(8, 10);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(122, 20);
+            this.label1.Size = new System.Drawing.Size(82, 13);
             this.label1.TabIndex = 9;
             this.label1.Text = "Connection Info";
             // 
@@ -604,13 +617,13 @@
             // 
             // TBasicDemo1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(2141, 991);
+            this.ClientSize = new System.Drawing.Size(1427, 644);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel2);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "TBasicDemo1";
@@ -625,7 +638,7 @@
             this.TCData.ResumeLayout(false);
             this.TPData.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.chart4)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.chart3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.distChart)).EndInit();
             this.TPSpec.ResumeLayout(false);
             this.panel7.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
@@ -661,7 +674,7 @@
         private System.Windows.Forms.RadioButton RBConfocalSpec;
         private System.Windows.Forms.RadioButton RBRawSpec;
         private System.Windows.Forms.DataVisualization.Charting.Chart chart4;
-        private System.Windows.Forms.DataVisualization.Charting.Chart chart3;
+        private System.Windows.Forms.DataVisualization.Charting.Chart distChart;
         private System.Windows.Forms.Splitter splitter1;
         private System.Windows.Forms.Timer TTimerUpdate;
         private System.Windows.Forms.Panel panel8;

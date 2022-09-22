@@ -34,7 +34,7 @@ namespace TCHRLibBasicDemo2
         const int Data_Length = 1024;
         const int Max_Signal_Nr = 2048*16;
         const int Max_Sample_Nr = 1024;
-        const string ConnectionError = "Connection Error";
+        const string ConnectionError = "Not Connected";
         TCHRLibFunctionWrapper.Conn_h CHRHandle;
         TCHRLibFunctionWrapper.Conn_h CHRHandle2;
         bool connected = false;
@@ -57,14 +57,18 @@ namespace TCHRLibBasicDemo2
 
         private void Init()
         {
+            var rnd = new Random();
 
             DataSamples = new (TCHRDataSample, TCHRDataSample)[Data_Length];
             OneSampleData = new double[Max_Sample_Nr*Max_Signal_Nr];
             SpecData = new short[1024];
             for (int i = 0; i < Data_Length; i++)
             {
+                
                 chart1.Series[0].Points.AddY(i);
-                chart3.Series[0].Points.AddY(i);
+                distChart.Series[0].Points.AddY(i);
+                var rd = rnd.NextDouble() * i;
+                distChart.Series[1].Points.AddY(rd);
                 chart4.Series[0].Points.AddY(i);
             }
         }
@@ -270,23 +274,16 @@ namespace TCHRLibBasicDemo2
                         Marshal.Copy(pData, OneSampleData, 0, SigNumber * (Int32)nCount);
                         for (int i = 0; i < nCount; i++)
                         {
-                            DataSamples[CurrentDataPos].Item1.Distance = 0;
-                            DataSamples[CurrentDataPos].Item1.Intensity = 0;
-                            DataSamples[CurrentDataPos].Item1.SampleCounter = 0;
-                            if (SigNumber > 0)
+                            DataSamples[CurrentDataPos] = default((TCHRDataSample, TCHRDataSample));
+                        if (SigNumber > 0)
                             {
-                                //since we order sample counter as the first signal
-                                //read in the sample counter
-                                if (SigNumber > 0)
+                                DataSamples[CurrentDataPos].Item1.SampleCounter = (int)GetSignalData(i, SigNumber, 0);
+                                if (((DataSamples[CurrentDataPos].Item1.SampleCounter < LastCounter)) && (DataSamples[CurrentDataPos].Item1.SampleCounter != 0))
                                 {
-                                    DataSamples[CurrentDataPos].Item1.SampleCounter = (int)GetSignalData(i, SigNumber, 0);
-                                    if (((DataSamples[CurrentDataPos].Item1.SampleCounter < LastCounter)) && (DataSamples[CurrentDataPos].Item1.SampleCounter != 0))
-                                    {
-                                        Console.WriteLine("Error in counter");
-                                    }
-                                    LastCounter = DataSamples[CurrentDataPos].Item1.SampleCounter;
-
+                                    Console.WriteLine("Error in counter");
                                 }
+                                LastCounter = DataSamples[CurrentDataPos].Item1.SampleCounter;
+
                                 //read in distance data (for the first channel in case of multi-channel device)
                                 if (SigNumber > 1)
                                     DataSamples[CurrentDataPos].Item1.Distance = GetSignalData(i, SigNumber, 1);
@@ -317,15 +314,15 @@ namespace TCHRLibBasicDemo2
                 for (int i = 0; i < Data_Length; i++)
                 {
                     if (SigNumber > 1)
-                        chart3.Series[0].Points[i].YValues[0] = DataSamples[i].Item1.Distance;
-                        chart3.Series[1].Points[i].YValues[0] = DataSamples[i].Item2.Distance;
+                        distChart.Series[0].Points[i].YValues[0] = DataSamples[i].Item1.Distance;
+                        distChart.Series[1].Points[i].YValues[0] = DataSamples[i].Item2.Distance;
                     if (SigNumber > 2)
                         chart4.Series[0].Points[i].YValues[0] = DataSamples[i].Item1.Intensity;
                     
                 }
 
-                chart3.ChartAreas[0].RecalculateAxesScale();
-                chart3.Invalidate();
+                distChart.ChartAreas[0].RecalculateAxesScale();
+                distChart.Invalidate();
                 chart4.ChartAreas[0].RecalculateAxesScale();
                 chart4.Invalidate();
             }
@@ -453,7 +450,7 @@ namespace TCHRLibBasicDemo2
             }
             else
             {
-                string errMsg = String.Format("Could not {0}", "ActivateAutoBufferMode");
+                string errMsg = "Could not ActivateAutoBufferMode";
                 _ = MessageBox.Show(errMsg, ConnectionError, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
